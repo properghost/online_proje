@@ -46,7 +46,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void Matchmaking()
     {
         PhotonNetwork.JoinRandomOrCreateRoom();
+    }
 
+    public void StopMatchmaking()
+    {
+        PhotonNetwork.LeaveRoom();
     }
     
 
