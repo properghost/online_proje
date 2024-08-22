@@ -34,6 +34,8 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         if(PhotonNetwork.CurrentRoom == null)
         {
+            readyPanel.SetActive(false);
+            cancelMatchmakingButton.SetActive(false);
             joinedLobbyText.SetActive(false);
             readyToPlayText.SetActive(false);
         }
