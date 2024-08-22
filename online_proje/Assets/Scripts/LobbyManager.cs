@@ -28,10 +28,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         
         PhotonNetwork.ConnectUsingSettings();
     }
-    void Update()
-    {
-        
-    }
     public override void OnConnectedToMaster()
     {
         Debug.Log("Joined to master.");
