@@ -29,6 +29,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         PV.RPC("RPC_SendAcceptance", RpcTarget.MasterClient, acceptdecline_index);
     }
+
+    //Master
     [PunRPC]
     void RPC_SendAcceptance(int acceptdecline_index)
     {
@@ -38,15 +40,28 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             acceptanceSituations = false;
         }
 
-        if(acceptdecline_index == 2 && acceptanceSituations == false)
+        if(acceptanceSituations == false)
         {
-            //close room
+            PV.RPC("RPC_LeaveRoomForEveryone", RpcTarget.AllViaServer);
         }
-        else if(acceptdecline_index == 2 && acceptanceSituations == true)
+        else if(acceptdecline_counter == 2 && acceptanceSituations == true)
         {
-            //initiate game screen for everyone
+            PV.RPC("RPC_LoadLevelForEveryone", RpcTarget.AllViaServer);
         }
     }
+
+    [PunRPC]
+    void RPC_LeaveRoomForEveryone()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    [PunRPC]
+    void RPC_LoadLevelForEveryone()
+    {
+        PhotonNetwork.LoadLevel(1);
+    }
+
     void Start()
     {
         Debug.Log("Connecting to master.");
