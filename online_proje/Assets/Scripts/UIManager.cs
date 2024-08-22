@@ -4,6 +4,8 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
+using UnityEngine.EventSystems;
+using Photon.Pun.UtilityScripts;
 
 public class UIManager : MonoBehaviourPunCallbacks
 {
@@ -70,6 +72,12 @@ public class UIManager : MonoBehaviourPunCallbacks
                 readyToPlayText.SetActive(false);
             }
         }
+    }
+
+    public void AcceptDeclineMethod()
+    {
+        int acceptdecline_index = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex();
+        LobbyManager.Instance.SendAcceptance(acceptdecline_index);
     }
 
     public override void OnJoinedLobby()

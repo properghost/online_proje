@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
-    
+    public PhotonView PV;
     public static LobbyManager instance;
 
     public static LobbyManager Instance
@@ -19,6 +19,32 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 instance = FindObjectOfType<LobbyManager>();
             }
             return instance;
+        }
+    }
+
+    private bool acceptanceSituations = true;
+    int acceptdecline_counter = 0;
+
+    public void SendAcceptance(int acceptdecline_index)
+    {
+        PV.RPC("RPC_SendAcceptance", RpcTarget.MasterClient, acceptdecline_index);
+    }
+    [PunRPC]
+    void RPC_SendAcceptance(int acceptdecline_index)
+    {
+        acceptdecline_counter++;
+        if(acceptdecline_index == 1) //if declined
+        {
+            acceptanceSituations = false;
+        }
+
+        if(acceptdecline_index == 2 && acceptanceSituations == false)
+        {
+            //close room
+        }
+        else if(acceptdecline_index == 2 && acceptanceSituations == true)
+        {
+            //initiate game screen for everyone
         }
     }
     void Start()
