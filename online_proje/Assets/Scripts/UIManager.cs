@@ -6,6 +6,7 @@ using Photon.Realtime;
 using TMPro;
 using UnityEngine.EventSystems;
 using Photon.Pun.UtilityScripts;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviourPunCallbacks
 {
@@ -33,6 +34,9 @@ public class UIManager : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_Text _nickname;
     [SerializeField] private GameObject joinedLobbyText;
     [SerializeField] private GameObject readyToPlayText;
+    [SerializeField] private GameObject CurrentPlayers;
+
+    public Sprite[] sprites;
     void Start()
     {
         if(PlayerPrefs.GetString("nickname") == "")
@@ -123,6 +127,13 @@ public class UIManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public void OpenRoomPanel()
+    {
+        readyPanel.SetActive(false);
+        profilePanel.SetActive(false);
+        roomPanel.SetActive(true);
+    }
+
     public void SaveNickname()
     {
         string nickname = inputField.text;
@@ -131,5 +142,24 @@ public class UIManager : MonoBehaviourPunCallbacks
         profilePanel.SetActive(false);
     }
 
-    
+    public void ShowCurrentPlayersTabVisible()
+    {
+        CurrentPlayers.SetActive(true);
+    }
+
+    public void SetActivePlayerSlots(int player_count)
+    {
+        for (int current_player_index = 0; current_player_index < player_count; current_player_index++)
+        {
+            CurrentPlayers.transform.GetChild(current_player_index).gameObject.SetActive(true);
+            string current_player_nickname = (string)PhotonNetwork.CurrentRoom.Players[current_player_index + 1].CustomProperties["nickname"];
+            int current_player_image_index = (int)PhotonNetwork.CurrentRoom.Players[current_player_index + 1].CustomProperties["image_index"];
+            CurrentPlayers.transform.GetChild(current_player_index).GetChild(0).GetComponent<Image>().sprite = sprites[current_player_image_index];
+            CurrentPlayers.transform.GetChild(current_player_index).GetChild(1).GetComponent<TextMeshProUGUI>().text = current_player_nickname;
+
+        }
+
+    }
+
+
 }

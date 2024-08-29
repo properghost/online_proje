@@ -59,7 +59,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_LoadLevelForEveryone()
     {
-        PhotonNetwork.LoadLevel(1);
+        UIManager.Instance.OpenRoomPanel();
     }
 
     void Start()
@@ -68,6 +68,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         
         PhotonNetwork.ConnectUsingSettings();
+
+        ExitGames.Client.Photon.Hashtable local_player_settings = new ExitGames.Client.Photon.Hashtable();
+
+        string nickname = PlayerPrefs.GetString("nickname");
+        int image_index = Random.Range(0, 2);
+
+        local_player_settings.Add("nickname", nickname);
+        local_player_settings.Add("image_index", image_index);
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(local_player_settings);
     }
     public override void OnConnectedToMaster()
     {
@@ -82,7 +92,25 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void Matchmaking()
     {
-        PhotonNetwork.JoinRandomOrCreateRoom();
+        ExitGames.Client.Photon.Hashtable RoomProperties = new ExitGames.Client.Photon.Hashtable();
+        RoomProperties.Add("GameMode", 0);
+        
+        
+        PhotonNetwork.JoinRandomRoom(RoomProperties, 2);
+    }
+
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        ExitGames.Client.Photon.Hashtable RoomProperties = new ExitGames.Client.Photon.Hashtable();
+        RoomProperties.Add("GameMode", 0);
+        
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.CustomRoomProperties = RoomProperties;
+
+        roomOptions.CustomRoomPropertiesForLobby = new[] { "GameMode" };
+        roomOptions.MaxPlayers = 2;
+        
+        PhotonNetwork.CreateRoom("room_" + Random.Range(0, 99999), roomOptions);
     }
 
     public void StopMatchmaking()
@@ -93,7 +121,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        
+        UIManager.Instance.ShowCurrentPlayersTabVisible();
+        UIManager.Instance.SetActivePlayerSlots(PhotonNetwork.CurrentRoom.PlayerCount);
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        UIManager.Instance.SetActivePlayerSlots(PhotonNetwork.CurrentRoom.PlayerCount);
     }
 
 
