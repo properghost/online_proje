@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Photon.Pun;
 using Photon.Realtime;
 using Unity.VisualScripting;
@@ -63,7 +64,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     void RPC_LoadLevelForEveryone()
     {
         PhotonNetwork.LoadLevel(1);
-        PhotonNetwork.Instantiate(player.name, spawnPoint.position, Quaternion.identity);
         //UIManager.Instance.OpenRoomPanel();
     }
 
@@ -88,6 +88,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Joined to master.");
         PhotonNetwork.JoinLobby();
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     public override void OnJoinedLobby()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviourPun
+public class PlayerMovement : MonoBehaviour
 {
     
     public float walkSpeed;
@@ -12,17 +12,25 @@ public class PlayerMovement : MonoBehaviourPun
     private Vector2 input;
     private Rigidbody rb;
 
+    PhotonView PV;
 
-
+    void Awake()
+    {
+        PV = GetComponent<PhotonView>();
+        rb = GetComponent<Rigidbody>();
+    }
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
+        if(PV.IsMine)
+        {
         input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         input.Normalize();
+
+        }
     }
 
     void FixedUpdate()
