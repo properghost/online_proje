@@ -137,8 +137,8 @@ public class UIManager : MonoBehaviourPunCallbacks
     public void SaveNickname()
     {
         string nickname = inputField.text;
-        PlayerPrefs.SetString("nickname", nickname);
-        _nickname.text = PlayerPrefs.GetString("nickname");
+        SaveManager.SetPlayerNickname(nickname);
+        _nickname.text = PlayerPrefs.GetString("playerNickname");
         profilePanel.SetActive(false);
     }
 

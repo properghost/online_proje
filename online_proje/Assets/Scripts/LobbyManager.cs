@@ -7,6 +7,9 @@ using UnityEngine;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
+    public GameObject player;
+    [Space]
+    public Transform spawnPoint;
     public PhotonView PV;
     public static LobbyManager instance;
 
@@ -59,7 +62,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_LoadLevelForEveryone()
     {
-        UIManager.Instance.OpenRoomPanel();
+        PhotonNetwork.LoadLevel(1);
+        PhotonNetwork.Instantiate(player.name, spawnPoint.position, Quaternion.identity);
+        //UIManager.Instance.OpenRoomPanel();
     }
 
     void Start()
@@ -130,5 +135,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         UIManager.Instance.SetActivePlayerSlots(PhotonNetwork.CurrentRoom.PlayerCount);
     }
 
+   
 
 }
