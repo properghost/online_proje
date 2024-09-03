@@ -12,7 +12,12 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 input;
     private Rigidbody rb;
 
+
     PhotonView PV;
+    private bool sprint;
+    private bool jump;
+    private bool dash;
+    private bool crouch;
 
     void Awake()
     {
@@ -29,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
         {
         input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         input.Normalize();
+        SprintInput();
 
         }
     }
@@ -62,5 +68,40 @@ public class PlayerMovement : MonoBehaviour
         {
             return new Vector3();
         }
+    }   
+    public void SprintInput()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            Debug.Log("Sprint activated.");
+            sprint = true;
+            if(sprint)
+            {
+                walkSpeed *= 2f;
+            }
+            else if(sprint == false)
+            {
+                walkSpeed = walkSpeed - walkSpeed/2;
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift) && sprint)
+        {
+            Debug.Log("Sprint de-activated.");
+            sprint = false;
+        }
     }
+
+    // void Sprint()
+    // {
+    //     if(sprint)
+    //     {
+    //         walkSpeed *= 2f;
+    //     }
+    //     else if(sprint == false)
+    //     {
+    //         walkSpeed = walkSpeed - walkSpeed/2;
+    //     }
+    // }
+
+
 }
