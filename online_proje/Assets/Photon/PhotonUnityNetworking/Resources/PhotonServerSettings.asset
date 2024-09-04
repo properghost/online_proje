@@ -42,6 +42,7 @@ MonoBehaviour:
   - RPC_SendAcceptance
   - RPC_LeaveRoomForEveryone
   - RPC_LoadLevelForEveryone
+  - GetMessage
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
