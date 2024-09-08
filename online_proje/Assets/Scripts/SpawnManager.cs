@@ -6,10 +6,10 @@ using System.IO;
 
 public class SpawnManager : MonoBehaviourPunCallbacks
 {
-    // Start is called before the first frame update
+    [SerializeField] private Transform spawnPoint;
     void Start()
     {
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), Vector3.zero, Quaternion.identity);
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint.position, Quaternion.identity);
     }
 
     // Update is called once per frame

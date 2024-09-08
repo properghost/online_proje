@@ -5349,6 +5349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e2a18b2a36321a46b27bec451ee1fa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnPoint: {fileID: 3913925744968412194}
 --- !u!4 &1379109776
 Transform:
   m_ObjectHideFlags: 0
@@ -8679,6 +8680,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bcf8949c96ce12b41b32390bf6ae7f2a, type: 3}
+--- !u!4 &3913925744968412194 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5312317150376124799, guid: bcf8949c96ce12b41b32390bf6ae7f2a, type: 3}
+  m_PrefabInstance: {fileID: 3913925744968412193}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
