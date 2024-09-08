@@ -8,6 +8,8 @@ using System.Data;
 public class PlayerMovementTwo : MonoBehaviour
 {
     PhotonView PV;
+    private Animator animatorController;
+    private bool isRunning;
     [Header("Movement")]
     private float moveSpeed;
     public float walkSpeed;
@@ -46,6 +48,7 @@ public class PlayerMovementTwo : MonoBehaviour
     {
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
+        animatorController = GetComponentInChildren<Animator>();
         rb.freezeRotation = true;
         startYScale = transform.localScale.y;
         readyToJump = true;
@@ -65,6 +68,7 @@ public class PlayerMovementTwo : MonoBehaviour
             MyInput();
             SpeedControl();
             StateHandler();
+            Animatons();
 
             // handle drag
             if (grounded)
@@ -180,5 +184,17 @@ public class PlayerMovementTwo : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true;
+    }
+
+    private void Animatons()
+    {
+        if(moveSpeed > 8f && grounded)
+        {
+            animatorController.SetBool("isRunning", true);
+        }
+        else if (moveSpeed == 8f && grounded)
+        {
+            animatorController.SetBool("isRunning", false);
+        }
     }
 }
